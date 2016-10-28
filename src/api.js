@@ -43,3 +43,19 @@ export function addNewComment(uuid, content, author) {
         })
     })
 }
+
+/**
+ * set checkout time
+ */
+export function setCheckout(uuid, checkout) {
+    const url = "http://localhost:4040/api/bookingrecords/records/" + uuid + '/checkout'
+    return fetch(url, {
+        headers: new Headers({
+            'Content-Type': 'application/json',
+        }),
+        method: 'POST',
+        body: JSON.stringify({
+            checkout: checkout,
+        })
+    })
+}

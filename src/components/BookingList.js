@@ -85,7 +85,7 @@ class BookingList extends Component {
                                 </span>
                             </p>
                             <p> {" 退房日期: " + item.CheckOut.substring(0, 10)}</p>
-                            <p> {" 退房时间: 12:00 PM"}</p>
+                            <p> {" 退房时间: " + item.CheckoutTime}</p>
                             <p> {" 状态: " + status}</p>
                         </div>
                     }

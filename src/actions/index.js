@@ -58,6 +58,10 @@ export const fetchBookingRecordAction = (range) => {
     }
 }
 
+/**
+ * comment dialog actions
+ */
+
 export const selectRecordAction = (uuid) => {
     return {
         type: 'E_RECORD_SELECTED',
@@ -75,55 +79,6 @@ export const showCommentsAction = (payload) => {
 export const closeCommentsAction = () => {
     return {
         type: 'A_CLOSE_COMMENTS',
-    }
-}
-
-/**
- * user select a action
- */
-
-export const menuItemSelectedAction = (menuIndex) => {
-    return (dispatch, getState) => {
-        const uuid = getState().dashboardReducer.currentRecordUUID
-        const range = getState().uiReducer.currentIndex === 1 ? '4' : '-3'
-        //set clean status
-        if (menuIndex === 0 || menuIndex === 1 || menuIndex === 2) {
-            let cleanStatus = ''
-            switch (menuIndex) {
-                case 0:
-                    cleanStatus = 'cleaned'
-                    break
-                case 1:
-                    cleanStatus = 'processing'
-                    break
-                default:
-                    cleanStatus = 'N/A'
-            }
-            api.setClean(uuid, cleanStatus)
-                .then(response => {
-                    if (response.status !== 200) {
-                        dispatch(fetchRecordFailed(response.statusText))
-                    } else {
-                        return response.json()
-                            .then(result => {
-                                dispatch(fetchBookingRecordAction(range))
-                            }).catch(e => {
-                                console.log(e)
-                            })
-                    }
-                }).catch(e => {
-                    console.log(e);
-                })
-        } else if (menuIndex === 3) {  //set checkout time
-            dispatch(openCheckoutsAction())
-        }
-        else {  //comments
-            const records = getState().uiReducer.currentIndex === 0 ?
-                getState().dashboardReducer.bookingRecordThisWeek :
-                getState().dashboardReducer.bookingRecordNextWeek
-            const payload = UTIL.getRecordByUUID(uuid, records)
-            dispatch(showCommentsAction(payload))
-        }
     }
 }
 
@@ -172,6 +127,10 @@ export const submitNewCommentAction = () => {
     }
 }
 
+/**
+ * checkout dialog actions
+ */
+
 export const setCheckoutHourAction = (payload) => {
     return {
         type: 'E_CHECKOUT_HOUR',
@@ -192,8 +151,84 @@ export const closeCheckoutsAction = () => {
     }
 }
 
-export const openCheckoutsAction = () => {
+export const openCheckoutsAction = (payload) => {
     return {
         type: 'E_CHECKOUT_OPEN',
+        payload
     }
 }
+
+export const submitNewCheckoutAction = () => {
+     return (dispatch, getState) => {
+         const uuid = getState().dashboardReducer.currentRecordUUID
+         const checkout = getState().uiReducer.checkOutTimeHour + ':00 ' +  getState().uiReducer.checkOutTimeAMPM
+         const range = getState().uiReducer.currentIndex === 1 ? '4' : '-3'
+         api.setCheckout(uuid, checkout)
+         .then(response => {
+                    if (response.status !== 200) {
+                        dispatch(fetchRecordFailed(response.statusText))
+                    } else {
+                        return response.json()
+                            .then(result => {
+                                dispatch(fetchBookingRecordAction(range))
+                                dispatch(closeCheckoutsAction())
+                            }).catch(e => {
+                                console.log(e)
+                            })
+                    }
+                }).catch(e => {
+                    console.log(e);
+                })
+ }
+}
+
+/**
+ * user select a action
+ */
+
+export const menuItemSelectedAction = (menuIndex) => {
+    return (dispatch, getState) => {
+        const uuid = getState().dashboardReducer.currentRecordUUID
+        const range = getState().uiReducer.currentIndex === 1 ? '4' : '-3'
+        const records = getState().uiReducer.currentIndex === 0 ?
+                getState().dashboardReducer.bookingRecordThisWeek :
+                getState().dashboardReducer.bookingRecordNextWeek
+        const payload = UTIL.getRecordByUUID(uuid, records)
+
+        //set clean status
+        if (menuIndex === 0 || menuIndex === 1 || menuIndex === 2) {
+            let cleanStatus = ''
+            switch (menuIndex) {
+                case 0:
+                    cleanStatus = 'cleaned'
+                    break
+                case 1:
+                    cleanStatus = 'processing'
+                    break
+                default:
+                    cleanStatus = 'N/A'
+            }
+            api.setClean(uuid, cleanStatus)
+                .then(response => {
+                    if (response.status !== 200) {
+                        dispatch(fetchRecordFailed(response.statusText))
+                    } else {
+                        return response.json()
+                            .then(result => {
+                                dispatch(fetchBookingRecordAction(range))
+                            }).catch(e => {
+                                console.log(e)
+                            })
+                    }
+                }).catch(e => {
+                    console.log(e);
+                })
+        } else if (menuIndex === 3) {  //set checkout time
+            dispatch(openCheckoutsAction(payload))
+        }
+        else {  //comments
+            dispatch(showCommentsAction(payload))
+        }
+    }
+}
+

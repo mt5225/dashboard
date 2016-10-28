@@ -69,14 +69,30 @@ const uiReducer = (state = initialState, action) => {
                     showCheckoutTimeDialog: false
                 }
             )
-         case 'E_CHECKOUT_OPEN':
-            return Object.assign(
-                {},
-                state,
-                {
-                    showCheckoutTimeDialog: true
-                }
-            )
+        case 'E_CHECKOUT_OPEN':
+            if (action.payload.CheckoutTime) {
+                const hour = action.payload.CheckoutTime.substring(0, 2)
+                const ampm = action.payload.CheckoutTime.substring(6, 8)
+                return Object.assign(
+                    {},
+                    state,
+                    {
+                        showCheckoutTimeDialog: true,
+                        dialogRecord: action.payload,
+                        checkOutTimeHour: hour,
+                        checkOutTimeAMPM: ampm,
+                    }
+                )
+            } else {
+                return Object.assign(
+                    {},
+                    state,
+                    {
+                        showCheckoutTimeDialog: true,
+                        dialogRecord: action.payload
+                    }
+                )
+            }
         default:
             return state
     }

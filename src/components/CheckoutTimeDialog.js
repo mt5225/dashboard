@@ -49,10 +49,11 @@ class CheckoutTimeDialog extends Component {
 
         const styles = {
             checkouttime: {
-                width: '40%',
+                width: '30%',
+                textAlign: 'center',
             },
             oneline: {
-                display: 'flex', 
+                display: 'flex',
                 flexDirection: 'row',
                 width: '35%'
             }
@@ -69,12 +70,18 @@ class CheckoutTimeDialog extends Component {
                 onRequestClose={this.props.handleClose}
                 >
                 <div>
-                    <SelectField value={'12'} style={styles.checkouttime}>
+                    <SelectField value={this.props.hour}
+                        style={styles.checkouttime}
+                        onChange={this.props.handleHour}
+                        >
                         {timelist}
                     </SelectField>
-                    <br/>
-                    <br/>
-                    <RadioButtonGroup name="ampm" defaultSelected="PM" style={styles.oneline}>
+                    <br />
+                    <br />
+                    <RadioButtonGroup name="ampm"
+                        defaultSelected={this.props.ampm}
+                        style={styles.oneline}
+                        onChange={this.props.handleAMPM}>
                         <RadioButton
                             value="PM"
                             label="下午"
@@ -98,8 +105,8 @@ const mapStateToProps = (state) => {
         currentIndex: state.uiReducer.currentIndex,
         open: state.uiReducer.showCheckoutTimeDialog,
         record: state.uiReducer.dialogRecord,
-        ampm: state.uiReducer.checkOutTimeAMPM,
         hour: state.uiReducer.checkOutTimeHour,
+        ampm: state.uiReducer.checkOutTimeAMPM,
     }
 }
 
@@ -110,6 +117,12 @@ const mapDispatchToProps = (dispatch) => {
         },
         handleSubmit: () => {
             dispatch(submitNewCheckoutAction())
+        },
+        handleAMPM: (e, value) => {
+            dispatch(setCheckoutAMPMAction(value))
+        },
+        handleHour: (e, index, value) => {
+            dispatch(setCheckoutHourAction(value))
         },
     }
 }
