@@ -2,8 +2,11 @@ const initialState = {
     currentIndex: 1,
     mode: 'list',
     showComment: false,
+    showCheckoutTimeDialog: false,
     dialogRecord: null,
-    newComment: ''
+    newComment: '',
+    checkOutTimeHour: '12',
+    checkOutTimeAMPM: 'PM',
 }
 
 const uiReducer = (state = initialState, action) => {
@@ -40,6 +43,38 @@ const uiReducer = (state = initialState, action) => {
                 state,
                 {
                     newComment: action.payload
+                }
+            )
+        case 'E_CHECKOUT_HOUR':
+            return Object.assign(
+                {},
+                state,
+                {
+                    checkOutTimeHour: action.payload
+                }
+            )
+        case 'E_CHECKOUT_AMPM':
+            return Object.assign(
+                {},
+                state,
+                {
+                    checkOutTimeAMPM: action.payload
+                }
+            )
+        case 'E_CHECKOUT_CLOSE':
+            return Object.assign(
+                {},
+                state,
+                {
+                    showCheckoutTimeDialog: false
+                }
+            )
+         case 'E_CHECKOUT_OPEN':
+            return Object.assign(
+                {},
+                state,
+                {
+                    showCheckoutTimeDialog: true
                 }
             )
         default:

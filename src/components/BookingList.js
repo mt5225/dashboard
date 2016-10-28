@@ -12,6 +12,7 @@ import Menu from 'material-ui/Menu'
 import MenuItem from 'material-ui/MenuItem'
 import { blue400, red400, green400 } from 'material-ui/styles/colors';
 import Comments from './Comments'
+import CheckoutTimeDialog from './CheckoutTimeDialog'
 
 
 class BookingList extends Component {
@@ -84,7 +85,7 @@ class BookingList extends Component {
                                 </span>
                             </p>
                             <p> {" 退房日期: " + item.CheckOut.substring(0, 10)}</p>
-                            <p> {" 退房时间: 1:30 PM"}</p>
+                            <p> {" 退房时间: 12:00 PM"}</p>
                             <p> {" 状态: " + status}</p>
                         </div>
                     }
@@ -117,6 +118,7 @@ class BookingList extends Component {
             this.props.bookingRecord.bookingRecordNextWeek.length : 0
 
         const comments = this.props.showCommentDialog ? (<Comments />) : ''
+        const checkouttime = this.props.showCheckoutTimeDialog ? (<CheckoutTimeDialog />) : ''
 
         return (
             <div>
@@ -150,6 +152,7 @@ class BookingList extends Component {
                     </Popover>
                 </div>
                 {comments}
+                {checkouttime}
             </div>
         );
     }
@@ -160,6 +163,7 @@ const mapStateToProps = (state) => {
         currentIndex: state.uiReducer.currentIndex,
         bookingRecord: state.dashboardReducer,
         showCommentDialog: state.uiReducer.showComment,
+        showCheckoutTimeDialog: state.uiReducer.showCheckoutTimeDialog,
     }
 }
 

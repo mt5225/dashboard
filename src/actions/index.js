@@ -115,7 +115,7 @@ export const menuItemSelectedAction = (menuIndex) => {
                     console.log(e);
                 })
         } else if (menuIndex === 3) {  //set checkout time
-            dispatch(fetchBookingRecordAction(range))
+            dispatch(openCheckoutsAction())
         }
         else {  //comments
             const records = getState().uiReducer.currentIndex === 0 ?
@@ -169,5 +169,31 @@ export const submitNewCommentAction = () => {
         } else {
             dispatch(closeCommentsAction())
         }
+    }
+}
+
+export const setCheckoutHourAction = (payload) => {
+    return {
+        type: 'E_CHECKOUT_HOUR',
+        payload
+    }
+}
+
+export const setCheckoutAMPMAction = (payload) => {
+    return {
+        type: 'E_CHECKOUT_AMPM',
+        payload
+    }
+}
+
+export const closeCheckoutsAction = () => {
+    return {
+        type: 'E_CHECKOUT_CLOSE',
+    }
+}
+
+export const openCheckoutsAction = () => {
+    return {
+        type: 'E_CHECKOUT_OPEN',
     }
 }
