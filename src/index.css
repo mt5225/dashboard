@@ -4,7 +4,8 @@ body {
   font-family: sans-serif;
 }
 
- .oneline {
+ .syncStatus {
+  padding-left: 20px;
   overflow: hidden;
   white-space: nowrap;
   width: 90%;

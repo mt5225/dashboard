@@ -6,7 +6,8 @@ const initialState = {
     thisWeekLoaded: false,
     bookingRecordNextWeek: {},
     nextWeekLoaded: false,
-    currentRecordUUID: ''
+    currentRecordUUID: '',
+    syncStatus: {},
 }
 
 /**
@@ -41,7 +42,14 @@ const dashboardReducer = (state = initialState, action) => {
                 state,
                 { currentRecordUUID: action.uuid }
             )
-            
+        case 'E_GET_SYNC_SUCCESS':
+            return Object.assign(
+                {},
+                state,
+                {
+                    syncStatus: action.payload
+                }
+            )
         default:
             return state
     }

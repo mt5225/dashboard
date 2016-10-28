@@ -12,12 +12,13 @@ const initialState = {
 const uiReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'A_NAV':
+            const mode = action.payload.value === 2 ? 'sync' : 'list'
             return Object.assign(
                 {},
                 state,
                 {
                     currentIndex: action.payload.value,
-                    mode: 'list'
+                    mode: mode
                 }
             )
         case 'A_SHOW_COMMENTS':

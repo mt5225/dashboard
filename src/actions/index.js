@@ -4,13 +4,19 @@ import * as UTIL from '../services/utils'
 /**
  * nav button action
  */
+
+
 export const navAction = (payload) => {
     return {
         type: 'A_NAV',
         payload
     }
+
 }
 
+/**
+ * api status
+ */
 export const fetchRecordRequestSent = (range) => {
     return {
         type: 'E_REQ_SENT',
@@ -110,7 +116,6 @@ export const submitNewCommentAction = () => {
                     } else {
                         return response.json()
                             .then(result => {
-                                console.log(result)
                                 dispatch(fetchBookingRecordAction(range))
                                 dispatch(closeCommentsAction())
                             }).catch(e => {
@@ -159,27 +164,27 @@ export const openCheckoutsAction = (payload) => {
 }
 
 export const submitNewCheckoutAction = () => {
-     return (dispatch, getState) => {
-         const uuid = getState().dashboardReducer.currentRecordUUID
-         const checkout = getState().uiReducer.checkOutTimeHour + ':00 ' +  getState().uiReducer.checkOutTimeAMPM
-         const range = getState().uiReducer.currentIndex === 1 ? '4' : '-3'
-         api.setCheckout(uuid, checkout)
-         .then(response => {
-                    if (response.status !== 200) {
-                        dispatch(fetchRecordFailed(response.statusText))
-                    } else {
-                        return response.json()
-                            .then(result => {
-                                dispatch(fetchBookingRecordAction(range))
-                                dispatch(closeCheckoutsAction())
-                            }).catch(e => {
-                                console.log(e)
-                            })
-                    }
-                }).catch(e => {
-                    console.log(e);
-                })
- }
+    return (dispatch, getState) => {
+        const uuid = getState().dashboardReducer.currentRecordUUID
+        const checkout = getState().uiReducer.checkOutTimeHour + ':00 ' + getState().uiReducer.checkOutTimeAMPM
+        const range = getState().uiReducer.currentIndex === 1 ? '4' : '-3'
+        api.setCheckout(uuid, checkout)
+            .then(response => {
+                if (response.status !== 200) {
+                    dispatch(fetchRecordFailed(response.statusText))
+                } else {
+                    return response.json()
+                        .then(result => {
+                            dispatch(fetchBookingRecordAction(range))
+                            dispatch(closeCheckoutsAction())
+                        }).catch(e => {
+                            console.log(e)
+                        })
+                }
+            }).catch(e => {
+                console.log(e);
+            })
+    }
 }
 
 /**
@@ -191,8 +196,8 @@ export const menuItemSelectedAction = (menuIndex) => {
         const uuid = getState().dashboardReducer.currentRecordUUID
         const range = getState().uiReducer.currentIndex === 1 ? '4' : '-3'
         const records = getState().uiReducer.currentIndex === 0 ?
-                getState().dashboardReducer.bookingRecordThisWeek :
-                getState().dashboardReducer.bookingRecordNextWeek
+            getState().dashboardReducer.bookingRecordThisWeek :
+            getState().dashboardReducer.bookingRecordNextWeek
         const payload = UTIL.getRecordByUUID(uuid, records)
 
         //set clean status
@@ -232,3 +237,35 @@ export const menuItemSelectedAction = (menuIndex) => {
     }
 }
 
+/**
+ * get system sync status action
+ */
+
+export const fetchSyncStatusSuccess = (payload) => {
+    return {
+        type: 'E_GET_SYNC_SUCCESS',
+        payload
+    }
+}
+
+export const getSystemSyncAction = (payload) => {
+    return (dispatch, getState) => {
+        api.getSyncStatus()
+            .then(response => {
+                if (response.status !== 200) {
+                    dispatch(fetchRecordFailed(response.statusText))
+                } else {
+                    return response.json()
+                        .then(result => {
+                            dispatch(fetchSyncStatusSuccess(result))
+                            dispatch(navAction(payload))
+                        }).catch(e => {
+                            console.log(e)
+                        })
+                }
+            })
+            .catch(e => {
+                console.log(e);
+            })
+    }
+}

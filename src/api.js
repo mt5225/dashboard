@@ -59,3 +59,17 @@ export function setCheckout(uuid, checkout) {
         })
     })
 }
+
+/**
+ * get sync status
+ */
+
+export function getSyncStatus() {
+    const url = "http://localhost:4040/api/bookingrecords/syncstatus"
+    return fetch(url, {
+        headers: new Headers({
+            'Content-Type': 'application/json',
+        }),
+        method: 'GET',
+    })
+}

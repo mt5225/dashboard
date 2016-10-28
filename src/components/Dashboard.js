@@ -5,9 +5,9 @@ import IconLocationOn from 'material-ui/svg-icons/action/autorenew';
 import IconHistory from 'material-ui/svg-icons/action/history'
 import IconToday from 'material-ui/svg-icons/action/today'
 import BookingList from './BookingList'
-import RecordEditor from './RecordEditor'
 import { connect } from 'react-redux'
-import { navAction } from '../actions'
+import { navAction, getSystemSyncAction } from '../actions'
+import SyncStatus from './SyncStatus'
 
 const nearbyIcon = <IconLocationOn />
 const historyIcon = <IconHistory />
@@ -15,7 +15,7 @@ const todayIcon = <IconToday />
 
 class Dashboard extends Component {
     render() {
-        const main = this.props.mode === 'list' ? (<BookingList />) : (<RecordEditor />)
+        const main = this.props.mode === 'list' ? (<BookingList />) : (<SyncStatus status={this.props.syncstatus}/>)
         return (
             <div>
                 <Paper zDepth={1}>
@@ -48,6 +48,7 @@ const mapStateToProps = (state) => {
     return {
         currentIndex: state.uiReducer.currentIndex,
         mode: state.uiReducer.mode,
+        syncstatus: state.dashboardReducer.syncStatus,
     }
 }
 
@@ -57,7 +58,11 @@ const mapDispatchToProps = (dispatch) => {
             let payload = {
                 value: index
             }
-            dispatch(navAction(payload))
+            if (index === 2) {
+                dispatch(getSystemSyncAction(payload))
+            } else {
+                dispatch(navAction(payload))
+            }
         },
     }
 }
