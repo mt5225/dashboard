@@ -6,12 +6,13 @@ import { closeCheckoutsAction, setCheckoutHourAction, setCheckoutAMPMAction, sub
 import { connect } from 'react-redux'
 import SelectField from 'material-ui/SelectField'
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
+import RaisedButton from 'material-ui/RaisedButton'
 
 class CheckoutTimeDialog extends Component {
 
     render() {
         const actions = [
-            <FlatButton
+            <RaisedButton
                 label="提 交"
                 primary={true}
                 keyboardFocused={false}

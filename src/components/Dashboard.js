@@ -27,7 +27,7 @@ class Dashboard extends Component {
                             onTouchTap={this.props.navSelect.bind(this, 0)}
                             />
                         <BottomNavigationItem
-                            label="今日及未来4天"
+                            label="今日及未来7天"
                             icon={todayIcon}
                             onTouchTap={this.props.navSelect.bind(this, 1)}
                             />

@@ -40,7 +40,7 @@ export const fetchRecordSuccess = (data, range) => {
 }
 
 /**
- * fetch this week records action
+ * fetch records action
  */
 export const fetchBookingRecordAction = (range) => {
     return (dispatch, getState) => {
@@ -53,6 +53,31 @@ export const fetchBookingRecordAction = (range) => {
                     return response.json()
                         .then(result => {
                             dispatch(fetchRecordSuccess(result, range))
+                        })
+                        .catch(e => {
+                            console.log(e)
+                        })
+                }
+            }).catch(e => {
+                console.log(e);
+            })
+    }
+}
+
+/**
+ * fetch checkin data in 7 days
+ */
+export const fetchBookingRecordCheckInAction = () => {
+    return (dispatch, getState) => {
+        dispatch(fetchRecordRequestSent('checkin in  7 days'))
+        api.fetchBookingRecordCheckIn('7')
+            .then(response => {
+                if (response.status !== 200) {
+                    dispatch(fetchRecordFailed(response.statusText))
+                } else {
+                    return response.json()
+                        .then(result => {
+                            dispatch(fetchRecordSuccess(result, 'checkin'))
                         })
                         .catch(e => {
                             console.log(e)
@@ -106,7 +131,7 @@ export const submitNewCommentAction = () => {
     return (dispatch, getState) => {
         const record = getState().uiReducer.dialogRecord
         const newComment = getState().uiReducer.newComment
-        const range = getState().uiReducer.currentIndex === 1 ? '4' : '-3'
+        const range = getState().uiReducer.currentIndex === 1 ? '7' : '-3'
         if (newComment.length > 2) {
             api.addNewComment(record.UUID, newComment, record.Operation)
                 .then(
@@ -167,7 +192,7 @@ export const submitNewCheckoutAction = () => {
     return (dispatch, getState) => {
         const uuid = getState().dashboardReducer.currentRecordUUID
         const checkout = getState().uiReducer.checkOutTimeHour + ':00 ' + getState().uiReducer.checkOutTimeAMPM
-        const range = getState().uiReducer.currentIndex === 1 ? '4' : '-3'
+        const range = getState().uiReducer.currentIndex === 1 ? '7' : '-3'
         api.setCheckout(uuid, checkout)
             .then(response => {
                 if (response.status !== 200) {
@@ -194,7 +219,7 @@ export const submitNewCheckoutAction = () => {
 export const menuItemSelectedAction = (menuIndex) => {
     return (dispatch, getState) => {
         const uuid = getState().dashboardReducer.currentRecordUUID
-        const range = getState().uiReducer.currentIndex === 1 ? '4' : '-3'
+        const range = getState().uiReducer.currentIndex === 1 ? '7' : '-3'
         const records = getState().uiReducer.currentIndex === 0 ?
             getState().dashboardReducer.bookingRecordThisWeek :
             getState().dashboardReducer.bookingRecordNextWeek

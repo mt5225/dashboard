@@ -5,20 +5,21 @@ import { closeCommentsAction, setCommentorAction, commentChangeAction, submitNew
 import { connect } from 'react-redux'
 import TextField from 'material-ui/TextField'
 import CommentsList from './CommentsList'
+import RaisedButton from 'material-ui/RaisedButton'
 
 class Comments extends Component {
     render() {
         const actions = [
-             <FlatButton
-                label="提 交"
+             <RaisedButton
+                label="提交新留言"
                 primary={true}
-                keyboardFocused={false}
+                keyboardFocused={true}
                 onTouchTap={this.props.handleSubmit}
                 />,
             <FlatButton
                 label="关 闭"
                 primary={false}
-                keyboardFocused={true}
+                keyboardFocused={false}
                 onTouchTap={this.props.handleClose}
                 />,
         ];
@@ -43,7 +44,7 @@ class Comments extends Component {
             <TextField
                 hintText="点击输入留言信息"
                 onChange={this.props.handleCommentChange}
-                floatingLabelText="新增留言"
+                floatingLabelText="新增留言(3字以上)"
                 floatingLabelFixed={true}
                 /><br />
         </div>

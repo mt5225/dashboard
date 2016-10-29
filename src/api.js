@@ -1,8 +1,11 @@
+//const BASE_URL = 'localhost'
+const BASE_URL = '52.53.191.1'
+
 /**
  * fetch booking record for data range
  */
 export function fetchBookingRecord(range) {
-    const url = "http://localhost:4040/api/bookingrecords/days/" + range
+    const url = "http://" + BASE_URL + ":4040/api/bookingrecords/days/" + range
     return fetch(url, {
         headers: new Headers({
             'Content-Type': 'application/json',
@@ -11,11 +14,20 @@ export function fetchBookingRecord(range) {
     })
 }
 
+export function fetchBookingRecordCheckIn(range) {
+    const url = "http://" + BASE_URL + ":4040/api/bookingrecords/dayscheckin/" + range
+    return fetch(url, {
+        headers: new Headers({
+            'Content-Type': 'application/json',
+        }),
+        method: 'GET',
+    })
+}
 /**
  * set record as cleaned
  */
 export function setClean(uuid, cleanStatus) {
-    const url = "http://localhost:4040/api/bookingrecords/records/" + uuid
+    const url = "http://" + BASE_URL + ":4040/api/bookingrecords/records/" + uuid
     return fetch(url, {
         headers: new Headers({
             'Content-Type': 'application/json',
@@ -31,7 +43,7 @@ export function setClean(uuid, cleanStatus) {
  * add new commnet
  */
 export function addNewComment(uuid, content, author) {
-    const url = "http://localhost:4040/api/bookingrecords/records/" + uuid + '/comments'
+    const url = "http://" + BASE_URL + ":4040/api/bookingrecords/records/" + uuid + '/comments'
     return fetch(url, {
         headers: new Headers({
             'Content-Type': 'application/json',
@@ -48,7 +60,7 @@ export function addNewComment(uuid, content, author) {
  * set checkout time
  */
 export function setCheckout(uuid, checkout) {
-    const url = "http://localhost:4040/api/bookingrecords/records/" + uuid + '/checkout'
+    const url = "http://" + BASE_URL + ":4040/api/bookingrecords/records/" + uuid + '/checkout'
     return fetch(url, {
         headers: new Headers({
             'Content-Type': 'application/json',
@@ -65,7 +77,7 @@ export function setCheckout(uuid, checkout) {
  */
 
 export function getSyncStatus() {
-    const url = "http://localhost:4040/api/bookingrecords/syncstatus"
+    const url = "http://" + BASE_URL + ":4040/api/bookingrecords/syncstatus"
     return fetch(url, {
         headers: new Headers({
             'Content-Type': 'application/json',

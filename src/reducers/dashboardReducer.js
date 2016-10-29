@@ -5,6 +5,8 @@ const initialState = {
     bookingRecordThisWeek: {},
     thisWeekLoaded: false,
     bookingRecordNextWeek: {},
+    checkinLoaded: false,
+    bookingRecordCheckIn: {},
     nextWeekLoaded: false,
     currentRecordUUID: '',
     syncStatus: {},
@@ -16,7 +18,17 @@ const initialState = {
 const dashboardReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'E_REQ_SUCCESS':
-            if (action.scope === 'thisweek') {
+            if (action.scope === 'checkin') {
+                return Object.assign(
+                    {},
+                    state,
+                    {
+                        bookingRecordCheckIn: action.payload,
+                        checkinLoaded: true
+                    }
+
+                )
+            } else if (action.scope < 0) { //past checkout
                 return Object.assign(
                     {},
                     state,
@@ -26,7 +38,7 @@ const dashboardReducer = (state = initialState, action) => {
                     }
 
                 )
-            } else {
+            } else { //future
                 return Object.assign(
                     {},
                     state,

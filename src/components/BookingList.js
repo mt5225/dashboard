@@ -1,16 +1,17 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { recordSelectedAction, fetchBookingRecordAction, selectRecordAction, menuItemSelectedAction } from '../actions'
+import { recordSelectedAction, fetchBookingRecordAction, selectRecordAction, menuItemSelectedAction, fetchBookingRecordCheckInAction } from '../actions'
 import { List, ListItem } from 'material-ui/List';
 import LabelOutline from 'material-ui/svg-icons/action/label-outline'
 import Avatar from 'material-ui/Avatar'
 import { lightBlack } from 'material-ui/styles/colors'
 import Subheader from 'material-ui/Subheader'
 import * as CONSTANT from '../services/constants'
+import * as UTIL from '../services/utils'
 import Popover from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
 import MenuItem from 'material-ui/MenuItem'
-import { blue400, red400, green400 } from 'material-ui/styles/colors';
+import { blue400, red400, green400, lightGreen100, red200 } from 'material-ui/styles/colors';
 import Comments from './Comments'
 import CheckoutTimeDialog from './CheckoutTimeDialog'
 
@@ -43,10 +44,11 @@ class BookingList extends Component {
             this.props.menuItemSelected(index)
         }
     }
-    componentWillMount() {
+    componentDidMount() {
         // load booking data
         this.props.fetchDataPast()
         this.props.fetchDataNext()
+        this.props.fetchDataCheckIn()
     }
 
 
@@ -68,13 +70,29 @@ class BookingList extends Component {
                         status = '待保洁'
                         bgColour = red400
                 }
-
+                const msg = item.Comments.length > 0 ?
+                    (<span style={{
+                        backgroundColor: lightGreen100,
+                        fontSize: 12
+                    }}> {item.Comments.length + "条留言"} </span>
+                    )
+                    : ''
+                let inout = ''
+                if (this.props.bookingRecord.checkinLoaded) {
+                    inout = UTIL.findInOut(item, this.props.CheckIns) ? (
+                        (<span style={{
+                            backgroundColor: red200,
+                            fontSize: 12
+                        }}> {"当日有入住"} </span>
+                        )
+                    ) : ''
+                }
                 return (<ListItem
                     key={item.UUID}
                     value={item.UUID}
                     primaryText={
                         <div>
-                            房号：{item.Room}
+                            房号：{item.Room}&nbsp; {msg}&nbsp; {inout}
                             <p>
                                 <span style={{
                                     color: lightBlack,
@@ -94,7 +112,7 @@ class BookingList extends Component {
                     secondaryTextLines={2}
                     secondaryText={
                         <p>
-                            {'负责人: ' + item.Operation}
+                            {'负责人: ' + item.Operation}&nbsp;
                         </p>
                     }
                     />
@@ -104,13 +122,13 @@ class BookingList extends Component {
     }
 
     render() {
-        //this week list
+        //past list
         const listItemThisWeek = this.props.bookingRecord.thisWeekLoaded ?
             this.genItemList('bookingRecordThisWeek') : ''
         const numberOfRecordsThisWeek = this.props.bookingRecord.thisWeekLoaded ?
             this.props.bookingRecord.bookingRecordThisWeek.length : 0
 
-        //next week list
+        //future list
         const listItemNextWeek = this.props.bookingRecord.nextWeekLoaded ?
             this.genItemList('bookingRecordNextWeek') : ''
 
@@ -164,6 +182,7 @@ const mapStateToProps = (state) => {
         bookingRecord: state.dashboardReducer,
         showCommentDialog: state.uiReducer.showComment,
         showCheckoutTimeDialog: state.uiReducer.showCheckoutTimeDialog,
+        CheckIns: state.dashboardReducer.bookingRecordCheckIn,
     }
 }
 
@@ -180,7 +199,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             dispatch(fetchBookingRecordAction('-3'))
         },
         fetchDataNext: () => {
-            dispatch(fetchBookingRecordAction('4'))
+            dispatch(fetchBookingRecordAction('7'))
+        },
+        fetchDataCheckIn: () => {
+            dispatch(fetchBookingRecordCheckInAction())
         },
         menuItemSelected: (index) => {
             dispatch(menuItemSelectedAction(index))
