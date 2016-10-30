@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import moment from 'moment'
 import { connect } from 'react-redux'
 import RaisedButton from 'material-ui/RaisedButton'
-import { fetchBookingRecordAction, fetchBookingRecordCheckInAction, navAction } from '../actions'
+import { fetchBookingRecordAction, fetchBookingRecordCheckInAction } from '../actions'
 import Dialog from 'material-ui/Dialog'
 
 class SystemStatus extends Component {
