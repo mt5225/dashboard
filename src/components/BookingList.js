@@ -92,7 +92,7 @@ class BookingList extends Component {
                     value={item.UUID}
                     primaryText={
                         <div>
-                            房号：{item.Room}&nbsp; {msg}&nbsp; {inout}
+                            <b>{" 退房日: " + item.CheckOut.substring(0, 10)} </b>&nbsp; {msg}&nbsp; {inout}
                             <p>
                                 <span style={{
                                     color: lightBlack,
@@ -102,8 +102,8 @@ class BookingList extends Component {
                                         " 住宿天数: " + item.TotalNight}
                                 </span>
                             </p>
-                            <p> {" 退房日期: " + item.CheckOut.substring(0, 10)}</p>
-                            <p> {" 退房时间: " + item.CheckoutTime}</p>
+                            <p> {" 退房时间: " + item.CheckoutTime} </p>
+                            <p>  房号：{item.Room} </p>
                             <p> {" 状态: " + status}</p>
                         </div>
                     }
@@ -205,6 +205,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             dispatch(fetchBookingRecordCheckInAction())
         },
         menuItemSelected: (index) => {
+            console.log(index)
             dispatch(menuItemSelectedAction(index))
         }
     }

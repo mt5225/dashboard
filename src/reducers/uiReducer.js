@@ -12,7 +12,14 @@ const initialState = {
 const uiReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'A_NAV':
-            const mode = action.payload.value === 2 ? 'sync' : 'list'
+            let mode = ''
+            if (action.payload.value === 3) {
+                mode = 'sync'
+            } else if (action.payload.value === 2) {
+                mode = 'checkin'
+            } else {
+                mode = 'list'
+            }
             return Object.assign(
                 {},
                 state,

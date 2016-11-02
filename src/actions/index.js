@@ -131,7 +131,6 @@ export const submitNewCommentAction = () => {
     return (dispatch, getState) => {
         const record = getState().uiReducer.dialogRecord
         const newComment = getState().uiReducer.newComment
-        const range = getState().uiReducer.currentIndex === 1 ? '7' : '-3'
         if (newComment.length > 2) {
             api.addNewComment(record.UUID, newComment, record.Operation)
                 .then(
@@ -141,7 +140,14 @@ export const submitNewCommentAction = () => {
                     } else {
                         return response.json()
                             .then(result => {
-                                dispatch(fetchBookingRecordAction(range))
+                                if (getState().uiReducer.currentIndex === 1) {
+                                    dispatch(fetchBookingRecordAction(7))
+                                } else if (getState().uiReducer.currentIndex === 0) { 
+                                    dispatch(fetchBookingRecordAction(-3))
+                                } else if (getState().uiReducer.currentIndex === 2){
+                                    dispatch(fetchBookingRecordCheckInAction()) 
+                                }
+
                                 dispatch(closeCommentsAction())
                             }).catch(e => {
                                 console.log(e)
@@ -211,9 +217,23 @@ export const submitNewCheckoutAction = () => {
             })
     }
 }
+/**
+ * user select a item in checkin ui
+ * 
+ */
+export const menuItemSelectedCheckInAction = (menuIndex) => {
+    return (dispatch, getState) => {
+        if (menuIndex === 0) {
+            const uuid = getState().dashboardReducer.currentRecordUUID
+            const records = getState().dashboardReducer.bookingRecordCheckIn
+            const payload = UTIL.getRecordByUUID(uuid, records)
+            dispatch(showCommentsAction(payload))
+        }
+    }
+}
 
 /**
- * user select a action
+ * user select a item in checkout ui
  */
 
 export const menuItemSelectedAction = (menuIndex) => {

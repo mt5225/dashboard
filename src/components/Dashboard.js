@@ -4,7 +4,9 @@ import Paper from 'material-ui/Paper';
 import IconLocationOn from 'material-ui/svg-icons/action/autorenew';
 import IconHistory from 'material-ui/svg-icons/action/history'
 import IconToday from 'material-ui/svg-icons/action/today'
+import IconCheckIn from 'material-ui/svg-icons/action/card-travel'
 import BookingList from './BookingList'
+import CheckInList from './CheckInList'
 import { connect } from 'react-redux'
 import { navAction, getSystemSyncAction } from '../actions'
 import SyncStatus from './SyncStatus'
@@ -12,29 +14,49 @@ import SyncStatus from './SyncStatus'
 const nearbyIcon = <IconLocationOn />
 const historyIcon = <IconHistory />
 const todayIcon = <IconToday />
+const checkInIcon = <IconCheckIn />
 
 class Dashboard extends Component {
+    getContent() {
+    switch(this.props.mode) {
+                    case 'list': 
+                        return (<BookingList />)             
+                    case 'sync': 
+                        return (<SyncStatus status={this.props.syncstatus} />)
+                    case 'checkin':
+                        return (<CheckInList />)
+                    default:
+                    return ""
+                }
+    }
+
     render() {
-        const main = this.props.mode === 'list' ? (<BookingList />) : (<SyncStatus status={this.props.syncstatus}/>)
+        const main = this.getContent()     
+        
         return (
             <div>
                 <Paper zDepth={1}>
                     <br />
                     <BottomNavigation selectedIndex={this.props.currentIndex}>
                         <BottomNavigationItem
-                            label="过去3天"
+                            label="过去3天退房"
                             icon={historyIcon}
                             onTouchTap={this.props.navSelect.bind(this, 0)}
                             />
                         <BottomNavigationItem
-                            label="今日及未来7天"
+                            label="7天内退房"
                             icon={todayIcon}
                             onTouchTap={this.props.navSelect.bind(this, 1)}
                             />
                         <BottomNavigationItem
+                            label="7天内入住"
+                            icon={checkInIcon}
+                            onTouchTap={this.props.navSelect.bind(this, 2)}
+                            />
+                        <BottomNavigationItem
                             label="系统状态"
                             icon={nearbyIcon}
-                            onTouchTap={this.props.navSelect.bind(this, 2)}
+                            onTouchTap={this.props.navSelect.bind(this, 3)}
                             />
                     </BottomNavigation>
                 </Paper>
@@ -58,7 +80,7 @@ const mapDispatchToProps = (dispatch) => {
             let payload = {
                 value: index
             }
-            if (index === 2) {
+            if (index === 3) {
                 dispatch(getSystemSyncAction(payload))
             } else {
                 dispatch(navAction(payload))
