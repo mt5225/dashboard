@@ -18,48 +18,54 @@ const checkInIcon = <IconCheckIn />
 
 class Dashboard extends Component {
     getContent() {
-    switch(this.props.mode) {
-                    case 'list': 
-                        return (<BookingList />)             
-                    case 'sync': 
-                        return (<SyncStatus status={this.props.syncstatus} />)
-                    case 'checkin':
-                        return (<CheckInList />)
-                    default:
-                    return ""
-                }
+        switch (this.props.mode) {
+            case 'list':
+                return (<BookingList />)
+            case 'sync':
+                return (<SyncStatus status={this.props.syncstatus} />)
+            case 'checkin':
+                return (<CheckInList />)
+            default:
+                return ""
+        }
     }
 
     render() {
-        const main = this.getContent()     
-        
+        const main = this.getContent()
+        const toolBarStyle = {
+            position: 'fixed',
+            top: 0,
+            zIndex: 2, 
+        }
         return (
             <div>
-                <Paper zDepth={1}>
-                    <br />
-                    <BottomNavigation selectedIndex={this.props.currentIndex}>
-                        <BottomNavigationItem
-                            label="过去3天退房"
-                            icon={historyIcon}
-                            onTouchTap={this.props.navSelect.bind(this, 0)}
-                            />
-                        <BottomNavigationItem
-                            label="7天内退房"
-                            icon={todayIcon}
-                            onTouchTap={this.props.navSelect.bind(this, 1)}
-                            />
-                        <BottomNavigationItem
-                            label="7天内入住"
-                            icon={checkInIcon}
-                            onTouchTap={this.props.navSelect.bind(this, 2)}
-                            />
-                        <BottomNavigationItem
-                            label="系统状态"
-                            icon={nearbyIcon}
-                            onTouchTap={this.props.navSelect.bind(this, 3)}
-                            />
-                    </BottomNavigation>
-                </Paper>
+                <div style={toolBarStyle}>
+                    <Paper zDepth={1} >
+                        <br />
+                        <BottomNavigation selectedIndex={this.props.currentIndex}>
+                            <BottomNavigationItem
+                                label="过去3天退房"
+                                icon={historyIcon}
+                                onTouchTap={this.props.navSelect.bind(this, 0)}
+                                />
+                            <BottomNavigationItem
+                                label="7天内退房"
+                                icon={todayIcon}
+                                onTouchTap={this.props.navSelect.bind(this, 1)}
+                                />
+                            <BottomNavigationItem
+                                label="7日内入住"
+                                icon={checkInIcon}
+                                onTouchTap={this.props.navSelect.bind(this, 2)}
+                                />
+                            <BottomNavigationItem
+                                label="系统状态"
+                                icon={nearbyIcon}
+                                onTouchTap={this.props.navSelect.bind(this, 3)}
+                                />
+                        </BottomNavigation>
+                    </Paper>
+                </div>
                 {main}
             </div>
         );
