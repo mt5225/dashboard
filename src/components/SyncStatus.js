@@ -40,10 +40,18 @@ class SystemStatus extends Component {
                 modal={true}
                 open={this.state.open}
                 >
-        </Dialog>
+            </Dialog>
         )
+        const mainStyle = {
+            position: 'relative',
+            top: 56,
+            paddingLeft: 20,
+            overflow: 'hidden',
+            whiteSpace: 'nowrap',
+            width: '90%'
+        }
         return (
-            <div className='syncStatus'>
+            <div style={mainStyle}>
                 <p> 最近一次同步时间 </p>
                 <p> &nbsp;{timeStr} </p>
                 <p> 处理纪录数: {this.props.status.process} </p>
@@ -55,7 +63,7 @@ class SystemStatus extends Component {
                     keyboardFocused={false}
                     onTouchTap={this.handleRefresh}
                     />
-                    {dialog}
+                {dialog}
             </div>
         );
     }

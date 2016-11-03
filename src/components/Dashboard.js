@@ -35,7 +35,11 @@ class Dashboard extends Component {
         const toolBarStyle = {
             position: 'fixed',
             top: 0,
-            zIndex: 2, 
+            zIndex: 2,
+        }
+        const mainStyle = {
+            position: 'relative',
+            top: 56,
         }
         return (
             <div>
@@ -66,7 +70,9 @@ class Dashboard extends Component {
                         </BottomNavigation>
                     </Paper>
                 </div>
-                {main}
+                <div style={mainStyle}>
+                    {main}
+                </div>
             </div>
         );
     }
