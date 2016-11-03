@@ -48,7 +48,7 @@ class Dashboard extends Component {
                         <br />
                         <BottomNavigation selectedIndex={this.props.currentIndex}>
                             <BottomNavigationItem
-                                label="过去3天退房"
+                                label="过往退房"
                                 icon={historyIcon}
                                 onTouchTap={this.props.navSelect.bind(this, 0)}
                                 />

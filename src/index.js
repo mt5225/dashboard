@@ -19,7 +19,7 @@ const logger = createLogger()
 
 const store = createStore(
   dashboardApp,
-  applyMiddleware(logger, thunk, routerMiddleware(browserHistory))
+  applyMiddleware(logger, thunk, routerMiddleware(browserHistory))  
 )
 
 const history = syncHistoryWithStore(browserHistory, store)
