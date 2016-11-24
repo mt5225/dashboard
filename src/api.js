@@ -1,4 +1,4 @@
-// const BASE_URL = 'localhost'
+//const BASE_URL = 'localhost'
 const BASE_URL = '52.53.191.1'
 
 /**

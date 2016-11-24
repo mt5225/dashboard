@@ -34,7 +34,8 @@ const uiReducer = (state = initialState, action) => {
                 state,
                 {
                     showComment: true,
-                    dialogRecord: action.payload
+                    dialogRecord: action.payload,
+                    newComment: '',
                 }
             )
         case 'A_CLOSE_COMMENTS':
