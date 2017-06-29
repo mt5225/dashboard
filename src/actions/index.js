@@ -197,7 +197,7 @@ export const openCheckoutsAction = (payload) => {
 export const submitNewCheckoutAction = () => {
     return (dispatch, getState) => {
         const uuid = getState().dashboardReducer.currentRecordUUID
-        const checkout = getState().uiReducer.checkOutTimeHour + ':00 ' + getState().uiReducer.checkOutTimeAMPM
+        const checkout = getState().uiReducer.checkOutTimeHour + ' ' + getState().uiReducer.checkOutTimeAMPM
         const range = getState().uiReducer.currentIndex === 1 ? '7' : '-3'
         api.setCheckout(uuid, checkout)
             .then(response => {

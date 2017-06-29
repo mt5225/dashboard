@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
-import MenuItem from 'material-ui/MenuItem'
 import { closeCheckoutsAction, setCheckoutHourAction, setCheckoutAMPMAction, submitNewCheckoutAction } from '../actions'
 import { connect } from 'react-redux'
-import SelectField from 'material-ui/SelectField'
+import TextField from 'material-ui/TextField';
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
 import RaisedButton from 'material-ui/RaisedButton'
 
@@ -17,13 +16,13 @@ class CheckoutTimeDialog extends Component {
                 primary={true}
                 keyboardFocused={false}
                 onTouchTap={this.props.handleSubmit}
-                />,
+            />,
             <FlatButton
                 label="关 闭"
                 primary={false}
                 keyboardFocused={true}
                 onTouchTap={this.props.handleClose}
-                />,
+            />,
         ];
 
         const customContentStyle = {
@@ -34,19 +33,7 @@ class CheckoutTimeDialog extends Component {
         const titleStyle = {
             fontSize: 18,
             paddingBottom: 0,
-
         }
-        const timelist = [...Array(12).keys()].map((item) => {
-            item += 1
-            if (item < 10) {
-                item = '0' + item
-            } else {
-                item = '' + item
-            }
-            return (
-                <MenuItem key={item} value={item} primaryText={item} />
-            )
-        })
 
         const styles = {
             checkouttime: {
@@ -62,21 +49,20 @@ class CheckoutTimeDialog extends Component {
 
         return (
             <Dialog
-                title="设定退房时间"
+                title="设定退房时间(HH:MM)"
                 actions={actions}
                 modal={false}
                 contentStyle={customContentStyle}
                 open={this.props.open}
                 titleStyle={titleStyle}
                 onRequestClose={this.props.handleClose}
-                >
-                <div>
-                    <SelectField value={this.props.hour}
+            >
+                <div style={styles.on}>
+                    <TextField id="text-field-checkout"
+                        defaultValue={this.props.hour}
                         style={styles.checkouttime}
                         onChange={this.props.handleHour}
-                        >
-                        {timelist}
-                    </SelectField>
+                    />
                     <br />
                     <br />
                     <RadioButtonGroup name="ampm"
@@ -87,12 +73,12 @@ class CheckoutTimeDialog extends Component {
                             value="PM"
                             label="下午"
                             colSpan={3}
-                            />
+                        />
                         <RadioButton
                             value="AM"
                             label="上午"
                             colSpan={3}
-                            />
+                        />
                     </RadioButtonGroup>
 
                 </div>
@@ -122,7 +108,7 @@ const mapDispatchToProps = (dispatch) => {
         handleAMPM: (e, value) => {
             dispatch(setCheckoutAMPMAction(value))
         },
-        handleHour: (e, index, value) => {
+        handleHour: (e, value) => {
             dispatch(setCheckoutHourAction(value))
         },
     }

@@ -80,8 +80,8 @@ const uiReducer = (state = initialState, action) => {
             )
         case 'E_CHECKOUT_OPEN':
             if (action.payload.CheckoutTime) {
-                const hour = action.payload.CheckoutTime.substring(0, 2)
-                const ampm = action.payload.CheckoutTime.substring(6, 8)
+                const hour = action.payload.CheckoutTime.substring(0, 5)
+                const ampm = action.payload.CheckoutTime.slice(-2)
                 return Object.assign(
                     {},
                     state,

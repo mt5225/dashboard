@@ -79,7 +79,7 @@ class CheckInList extends Component {
                     secondaryTextLines={2}
                     secondaryText={
                         <p>
-                            {'负责人: ' + item.Operation}&nbsp;
+                            {'Sales: ' + item.Operation}&nbsp;
                         </p>
                     }
                     />
@@ -99,8 +99,9 @@ class CheckInList extends Component {
                     targetOrigin={{ horizontal: 'left', vertical: 'center' }}
                     onRequestClose={this.handleRequestClose}
                     >
-                    <Menu onItemTouchTap={this.handleMenuItemClick}>
+                    <Menu onItemTouchTap={this.handleMenuItemClick}>                
                         <MenuItem primaryText="留言" />
+                        <MenuItem primaryText="设定入住时间" />
                     </Menu>
                 </Popover>
                 {this.props.showCommentDialog ? (<Comments />) : ''}

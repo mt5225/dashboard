@@ -112,7 +112,7 @@ class BookingList extends Component {
                     secondaryTextLines={2}
                     secondaryText={
                         <p>
-                            {'负责人: ' + item.Operation}&nbsp;
+                            {'Sales: ' + item.Operation}&nbsp;
                         </p>
                     }
                     />
