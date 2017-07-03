@@ -38,8 +38,7 @@ class Comments extends Component {
         const roomDetail = this.props.open ? (<div>
             <p> {"房间号 " + this.props.record.Room +
                 " 入住: " + this.props.record.CheckIn.substring(0, 10) +
-                " 退房: " + this.props.record.CheckOut.substring(0, 10) + 
-                " Sales: " + this.props.record.Operation}</p>
+                " 退房: " + this.props.record.CheckOut.substring(0, 10)}</p>
             <CommentsList comments={this.props.record.Comments}/>
             <TextField
                 hintText="点击输入留言信息"

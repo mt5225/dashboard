@@ -20,3 +20,6 @@ it will open browser and visit the app
 ## switch backend api server address
 
 api.js  `` const BASE_URL = localhost ``
+
+## deploy
+ansible-playbook uniroom_op_frontend.yml

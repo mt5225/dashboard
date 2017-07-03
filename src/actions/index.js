@@ -142,10 +142,10 @@ export const submitNewCommentAction = () => {
                             .then(result => {
                                 if (getState().uiReducer.currentIndex === 1) {
                                     dispatch(fetchBookingRecordAction(7))
-                                } else if (getState().uiReducer.currentIndex === 0) { 
+                                } else if (getState().uiReducer.currentIndex === 0) {
                                     dispatch(fetchBookingRecordAction(-3))
-                                } else if (getState().uiReducer.currentIndex === 2){
-                                    dispatch(fetchBookingRecordCheckInAction()) 
+                                } else if (getState().uiReducer.currentIndex === 2) {
+                                    dispatch(fetchBookingRecordCheckInAction())
                                 }
 
                                 dispatch(closeCommentsAction())
@@ -217,17 +217,76 @@ export const submitNewCheckoutAction = () => {
             })
     }
 }
+
+/**
+ * checkin dialog actions
+ */
+
+export const setCheckinHourAction = (payload) => {
+    return {
+        type: 'E_CHECKIN_HOUR',
+        payload
+    }
+}
+
+export const setCheckinAMPMAction = (payload) => {
+    return {
+        type: 'E_CHECKIN_AMPM',
+        payload
+    }
+}
+
+export const closeCheckinAction = () => {
+    return {
+        type: 'E_CHECKIN_CLOSE',
+    }
+}
+
+export const openCheckinAction = (payload) => {
+    return {
+        type: 'E_CHECKIN_OPEN',
+        payload
+    }
+}
+
+export const submitNewCheckinAction = () => {
+    return (dispatch, getState) => {
+        const uuid = getState().dashboardReducer.currentRecordUUID
+        const checkin = getState().uiReducer.checkInTimeHour + ' ' + getState().uiReducer.checkInTimeAMPM
+        api.setCheckin(uuid, checkin)
+            .then(response => {
+                if (response.status !== 200) {
+                    dispatch(fetchRecordFailed(response.statusText))
+                } else {
+                    return response.json()
+                        .then(result => {
+                            dispatch(fetchBookingRecordCheckInAction())
+                            dispatch(closeCheckinAction())
+                        }).catch(e => {
+                            console.log(e)
+                        })
+                }
+            }).catch(e => {
+                console.log(e);
+            })
+    }
+}
+
 /**
  * user select a item in checkin ui
  * 
  */
 export const menuItemSelectedCheckInAction = (menuIndex) => {
     return (dispatch, getState) => {
+        const uuid = getState().dashboardReducer.currentRecordUUID
+        const records = getState().dashboardReducer.bookingRecordCheckIn
+        const payload = UTIL.getRecordByUUID(uuid, records)
         if (menuIndex === 0) {
-            const uuid = getState().dashboardReducer.currentRecordUUID
-            const records = getState().dashboardReducer.bookingRecordCheckIn
-            const payload = UTIL.getRecordByUUID(uuid, records)
             dispatch(showCommentsAction(payload))
+        } else if (menuIndex === 1) {  //set checkin time
+            dispatch(openCheckinAction(payload))
+        } else {
+            //do nothing
         }
     }
 }

@@ -38,7 +38,7 @@ const dashboardReducer = (state = initialState, action) => {
                     }
 
                 )
-            } else { //future
+            } else { //future checkin
                 return Object.assign(
                     {},
                     state,

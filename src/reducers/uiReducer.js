@@ -3,10 +3,13 @@ const initialState = {
     mode: 'list',
     showComment: false,
     showCheckoutTimeDialog: false,
+    showCheckinTimeDialog: false,
     dialogRecord: null,
     newComment: '',
-    checkOutTimeHour: '12',
+    checkOutTimeHour: '12:00',
     checkOutTimeAMPM: 'PM',
+    checkInTimeHour: '03:00',
+    checkInTimeAMPM: 'PM',
 }
 
 const uiReducer = (state = initialState, action) => {
@@ -98,6 +101,54 @@ const uiReducer = (state = initialState, action) => {
                     state,
                     {
                         showCheckoutTimeDialog: true,
+                        dialogRecord: action.payload
+                    }
+                )
+            }
+        case 'E_CHECKIN_HOUR':
+            return Object.assign(
+                {},
+                state,
+                {
+                    checkInTimeHour: action.payload
+                }
+            )
+        case 'E_CHECKIN_AMPM':
+            return Object.assign(
+                {},
+                state,
+                {
+                    checkInTimeAMPM: action.payload
+                }
+            )
+        case 'E_CHECKIN_CLOSE':
+            return Object.assign(
+                {},
+                state,
+                {
+                    showCheckinTimeDialog: false
+                }
+            )
+        case 'E_CHECKIN_OPEN':
+            if (action.payload.CheckinTime) {
+                const hour = action.payload.CheckinTime.substring(0, 5)
+                const ampm = action.payload.CheckinTime.slice(-2)
+                return Object.assign(
+                    {},
+                    state,
+                    {
+                        showCheckinTimeDialog: true,
+                        dialogRecord: action.payload,
+                        checkInTimeHour: hour,
+                        checkInTimeAMPM: ampm,
+                    }
+                )
+            } else {
+                return Object.assign(
+                    {},
+                    state,
+                    {
+                        showCheckinTimeDialog: true,
                         dialogRecord: action.payload
                     }
                 )

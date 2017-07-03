@@ -15,6 +15,7 @@ import MenuItem from 'material-ui/MenuItem'
 import {  green400, lightGreen100,} from 'material-ui/styles/colors';
 import Comments from './Comments'
 import * as CONSTANT from '../services/constants'
+import CheckinTimeDialog from './CheckinTimeDialog'
 
 class CheckInList extends Component {
     constructor(props) {
@@ -70,6 +71,7 @@ class CheckInList extends Component {
                                         " 住宿天数: " + item.TotalNight}
                                 </span>
                             </p>
+                            <p>  入住时间：{item.CheckinTime} </p>
                             <p> {" 退房: " + item.CheckOut.substring(0, 10)} </p>
                             <p>  房号：{item.Room} </p>
                         </div>
@@ -79,7 +81,7 @@ class CheckInList extends Component {
                     secondaryTextLines={2}
                     secondaryText={
                         <p>
-                            {'Sales: ' + item.Operation}&nbsp;
+                            {'Sales: ' + item.Sales}&nbsp;
                         </p>
                     }
                     />
@@ -105,6 +107,7 @@ class CheckInList extends Component {
                     </Menu>
                 </Popover>
                 {this.props.showCommentDialog ? (<Comments />) : ''}
+                {this.props.showCheckinTimeDialog ? (<CheckinTimeDialog />) : ''}
             </div>
         );
     }
@@ -129,6 +132,7 @@ const mapStateToProps = (state) => {
     return {
         currentIndex: state.uiReducer.currentIndex,
         showCommentDialog: state.uiReducer.showComment,
+        showCheckinTimeDialog: state.uiReducer.showCheckinTimeDialog,
         CheckIns: state.dashboardReducer.bookingRecordCheckIn,
     }
 }

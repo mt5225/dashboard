@@ -1,5 +1,5 @@
-const BASE_URL = 'localhost'
-//const BASE_URL = '52.53.191.1'
+//const BASE_URL = 'localhost'
+const BASE_URL = '52.53.191.1'
 
 /**
  * fetch booking record for data range
@@ -72,6 +72,22 @@ export function setCheckout(uuid, checkout) {
     })
 }
 
+
+/**
+ * set checkin time
+ */
+export function setCheckin(uuid, checkin) {
+    const url = "http://" + BASE_URL + ":4040/api/bookingrecords/records/" + uuid + '/checkin'
+    return fetch(url, {
+        headers: new Headers({
+            'Content-Type': 'application/json',
+        }),
+        method: 'POST',
+        body: JSON.stringify({
+            checkin: checkin,
+        })
+    })
+}
 /**
  * get sync status
  */
