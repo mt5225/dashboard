@@ -22,4 +22,8 @@ it will open browser and visit the app
 api.js  `` const BASE_URL = localhost ``
 
 ## deploy
+
+```bash
+cd /Users/mt5225/Projects/playground/playbooks
 ansible-playbook uniroom_op_frontend.yml
+```

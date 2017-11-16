@@ -47,6 +47,10 @@ class CheckoutTimeDialog extends Component {
             }
         }
 
+        const focusInputField = input => {
+            input && input.focus();
+          };
+
         return (
             <Dialog
                 title="设定退房时间(HH:MM)"
@@ -62,6 +66,7 @@ class CheckoutTimeDialog extends Component {
                         defaultValue={this.props.hour}
                         style={styles.checkouttime}
                         onChange={this.props.handleHour}
+                        ref={focusInputField}
                     />
                     <br />
                     <br />
