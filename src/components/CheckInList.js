@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {
-    recordSelectedAction,
     selectRecordAction, menuItemSelectedCheckInAction,
 } from '../actions'
 import { List, ListItem } from 'material-ui/List';
@@ -12,7 +11,7 @@ import Subheader from 'material-ui/Subheader'
 import Popover from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
 import MenuItem from 'material-ui/MenuItem'
-import {  green400, lightGreen100,} from 'material-ui/styles/colors';
+import { green400, lightGreen100, } from 'material-ui/styles/colors';
 import Comments from './Comments'
 import * as CONSTANT from '../services/constants'
 import CheckinTimeDialog from './CheckinTimeDialog'
@@ -77,19 +76,19 @@ class CheckInList extends Component {
                         </div>
                     }
                     onTouchTap={this.handleTouchTap}
-                    leftAvatar={<Avatar icon={<LabelOutline />} backgroundColor={green400}/>}
+                    leftAvatar={<Avatar icon={<LabelOutline />} backgroundColor={green400} />}
                     secondaryTextLines={2}
                     secondaryText={
                         <p>
                             {'Sales: ' + item.Sales}&nbsp;
                         </p>
                     }
-                    />
+                />
                 )
             }
         )
         return (
-             <div style={CONSTANT.showElement}>
+            <div style={CONSTANT.showElement}>
                 <List >
                     <Subheader inset={true}>共{this.props.CheckIns.length}条记录</Subheader>
                     {listItems}
@@ -100,8 +99,8 @@ class CheckInList extends Component {
                     anchorOrigin={{ horizontal: 'middle', vertical: 'center' }}
                     targetOrigin={{ horizontal: 'left', vertical: 'center' }}
                     onRequestClose={this.handleRequestClose}
-                    >
-                    <Menu onItemTouchTap={this.handleMenuItemClick}>                
+                >
+                    <Menu onItemTouchTap={this.handleMenuItemClick}>
                         <MenuItem primaryText="留言" />
                         <MenuItem primaryText="设定入住时间" />
                     </Menu>
@@ -116,12 +115,6 @@ class CheckInList extends Component {
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         dispatch,
-        recordSelect: (recordId) => {
-            let payload = {
-                value: recordId
-            }
-            dispatch(recordSelectedAction(payload))
-        },
         menuItemSelected: (index) => {
             dispatch(menuItemSelectedCheckInAction(index))
         }

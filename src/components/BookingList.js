@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { recordSelectedAction, fetchBookingRecordAction, selectRecordAction, menuItemSelectedAction, fetchBookingRecordCheckInAction } from '../actions'
+import {fetchBookingRecordAction, selectRecordAction, menuItemSelectedAction, fetchBookingRecordCheckInAction } from '../actions'
 import { List, ListItem } from 'material-ui/List';
 import LabelOutline from 'material-ui/svg-icons/action/label-outline'
 import Avatar from 'material-ui/Avatar'
@@ -189,12 +189,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         dispatch,
-        recordSelect: (recordId) => {
-            let payload = {
-                value: recordId
-            }
-            dispatch(recordSelectedAction(payload))
-        },
         fetchDataPast: () => {
             dispatch(fetchBookingRecordAction('-3'))
         },
