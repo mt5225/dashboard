@@ -1,5 +1,5 @@
 //const BASE_URL = 'localhost'
-const BASE_URL = '52.53.191.1'
+const BASE_URL = '54.67.109.138'
 
 /**
  * fetch booking record for data range
